@@ -1,0 +1,22 @@
+#leaderboard {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+#players-list {
+    list-style: none;
+    padding: 0;
+}
+
+#players-list li {
+    background-color: #f0f0f0;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.5s;
+}
+
+#players-list li.updated {
+    background-color: #bada55;
+}
