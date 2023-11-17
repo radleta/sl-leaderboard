@@ -55,3 +55,15 @@
     text-align: center;
 	float:left;
 }
+
+.gold {
+    color: #FFD700; /* Gold */
+}
+
+.silver {
+    color: #C0C0C0; /* Silver */
+}
+
+.bronze {
+    color: #cd7f32; /* Bronze */
+}

@@ -52,7 +52,17 @@ function updateLeaderboard(data) {
             const rankChange = getRankChange(previousIndex, index + 1);
             if (Math.abs(rankChange) >= 1) { // Change this to adjust the threshold for movements
                 const movementElement = document.createElement('li');
-                movementElement.textContent = `${player.player} moved ${rankChange > 0 ? 'up' : 'down'} ${Math.abs(rankChange)} places`;
+                movementElement.textContent = `${player.player} moved from rank ${previousIndex} to ${index + 1} with ${player.total_packs} packs`;
+
+                // Add color for big movements
+                if (Math.abs(rankChange) >= 10) {
+                    movementElement.classList.add('gold');
+                } else if (Math.abs(rankChange) >= 5) {
+                    movementElement.classList.add('silver');
+                } else {
+                    movementElement.classList.add('bronze');
+                }
+
                 movementsList.appendChild(movementElement);
             }
 
