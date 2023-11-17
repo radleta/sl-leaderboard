@@ -34,5 +34,5 @@ function updateLeaderboard(data) {
 // Initial fetch
 fetchLeaderboardData();
 
-// Poll for updates every 30 seconds
+// Poll for updates every 5 seconds
 setInterval(fetchLeaderboardData, 5000);
