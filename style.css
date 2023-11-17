@@ -1,7 +1,9 @@
 .leaderboard {
+	width: 50%;
     max-width: 600px;
     margin: auto;
     text-align: center;
+	float:left;
 }
 
 .rank-1-6 {
@@ -43,4 +45,12 @@
 
 .players-list li.updated {
     background-color: #bada55;
+}
+
+.movements {
+	width: 50%;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+	float:left;
 }

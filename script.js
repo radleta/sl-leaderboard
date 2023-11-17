@@ -24,23 +24,41 @@ function getRankClass(rank) {
         return 'rank-300-plus';
     }
 }
+function getRankChange(previousRank, currentRank) {
+    if (previousRank && currentRank) {
+        return previousRank - currentRank;
+    } else {
+        return 0;
+    }
+}
 
 function updateLeaderboard(data) {
     const playersList = document.getElementById('players-list');
+    const movementsList = document.getElementById('movements-list'); // Corrected
     playersList.innerHTML = '';
+    movementsList.innerHTML = ''; // New
 
     data.players.forEach((player, index) => {
         const playerElement = document.createElement('li');
         playerElement.textContent = `${player.player}: ${player.total_packs} packs`;
 
         // Add rank class
-        playerElement.classList.add(getRankClass(index + 1));
+        playerElement.classList.add(getRankClass(index));
 
         // Check for changes
         if (previousData) {
             const previousPlayer = previousData.players.find(p => p.player === player.player);
-            if (previousPlayer && previousPlayer.total_packs !== player.total_packs) {
-                playerElement.classList.add('updated');
+            if (previousPlayer) {
+                const rankChange = getRankChange(previousData.players.indexOf(previousPlayer) + 1, index + 1);
+                if (Math.abs(rankChange) >= 10) { // Change this to adjust the threshold for "big" movements
+                    const movementElement = document.createElement('li');
+                    movementElement.textContent = `${player.player} moved ${rankChange > 0 ? 'up' : 'down'} ${Math.abs(rankChange)} places`;
+                    movementsList.appendChild(movementElement);
+                }
+
+                if (previousPlayer.total_packs !== player.total_packs) {
+                    playerElement.classList.add('updated');
+                }
             }
         }
 
