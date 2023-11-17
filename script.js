@@ -50,18 +50,13 @@ function updateLeaderboard(data) {
             const previousPlayer = previousData.players.find(p => p.player === player.player);
             const previousIndex = previousPlayer ? previousData.players.indexOf(previousPlayer) + 1 : -1;
             const rankChange = getRankChange(previousIndex, index + 1);
-            if (Math.abs(rankChange) >= 1) { // Change this to adjust the threshold for movements
+            const packDelta = previousPlayer ? player.total_packs - previousPlayer.total_packs : player.total_packs; // Calculate pack delta
+            if (Math.abs(rankChange) >= 1 && packDelta > 0) { // Check if packDelta is greater than 0
                 const movementElement = document.createElement('li');
-                movementElement.textContent = `${player.player} moved from rank ${previousIndex} to ${index + 1} with ${player.total_packs} packs`;
+                movementElement.textContent = `${player.player} moved from rank ${previousIndex} to ${index + 1} with a pack delta of ${packDelta}`;
 
                 // Add color for big movements
-                if (Math.abs(rankChange) >= 10) {
-                    movementElement.classList.add('gold');
-                } else if (Math.abs(rankChange) >= 5) {
-                    movementElement.classList.add('silver');
-                } else {
-                    movementElement.classList.add('bronze');
-                }
+                movementElement.classList.add(getRankClass(index + 1)); // Add the rank class based on the new rank
 
                 movementsList.appendChild(movementElement);
             }
