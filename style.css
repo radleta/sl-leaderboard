@@ -1,22 +1,46 @@
-#leaderboard {
+.leaderboard {
     max-width: 600px;
     margin: auto;
     text-align: center;
 }
 
-#players-list {
+.rank-1-6 {
+    background-color: gold; /* Gold for ranks 1-6 */
+    color: #000; /* Black text */
+}
+
+.rank-7-30 {
+    background-color: #C0C0C0; /* Silver for ranks 7-30 */
+    color: #000; /* Black text */
+}
+
+.rank-31-100 {
+    background-color: #cd7f32; /* Bronze for ranks 31-100 */
+    color: #000; /* Black text */
+}
+
+.rank-101-300 {
+    background-color: #008000; /* Green for ranks 101-300 */
+    color: #FFF; /* White text */
+}
+
+.rank-300-plus {
+    background-color: #0000FF; /* Blue for ranks 300+ */
+    color: #FFF; /* White text */
+}
+
+.players-list {
     list-style: none;
     padding: 0;
 }
 
-#players-list li {
-    background-color: #f0f0f0;
+.players-list li {
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
     transition: background-color 0.5s;
 }
 
-#players-list li.updated {
+.players-list li.updated {
     background-color: #bada55;
 }

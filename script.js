@@ -11,14 +11,31 @@ function fetchLeaderboardData() {
         .catch(error => console.error('Error fetching leaderboard data:', error));
 }
 
+function getRankClass(rank) {
+    if (rank < 6) {
+        return 'rank-1-6';
+    } else if (rank < 30) {
+        return 'rank-7-30';
+    } else if (rank < 100) {
+        return 'rank-31-100';
+    } else if (rank < 300) {
+        return 'rank-101-300';
+    } else {
+        return 'rank-300-plus';
+    }
+}
+
 function updateLeaderboard(data) {
     const playersList = document.getElementById('players-list');
     playersList.innerHTML = '';
 
-    data.players.forEach(player => {
+    data.players.forEach((player, index) => {
         const playerElement = document.createElement('li');
         playerElement.textContent = `${player.player}: ${player.total_packs} packs`;
-        
+
+        // Add rank class
+        playerElement.classList.add(getRankClass(index + 1));
+
         // Check for changes
         if (previousData) {
             const previousPlayer = previousData.players.find(p => p.player === player.player);
