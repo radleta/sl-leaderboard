@@ -36,7 +36,6 @@ function updateLeaderboard(data) {
     const playersList = document.getElementById('players-list');
     const movementsList = document.getElementById('movements-list'); // Corrected
     playersList.innerHTML = '';
-    movementsList.innerHTML = ''; // New
 
     data.players.forEach((player, index) => {
         const playerElement = document.createElement('li');
