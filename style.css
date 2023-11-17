@@ -40,11 +40,12 @@
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
-    transition: background-color 0.5s;
+    transition: background-color 1s, color 1s; /* Added color transition */
 }
 
 .players-list li.updated {
-    background-color: #bada55;
+    background-color: #FF4500; /* Orange red for updated players */
+    color: #FFF; /* White text */
 }
 
 .movements {

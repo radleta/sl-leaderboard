@@ -24,40 +24,40 @@ function getRankClass(rank) {
         return 'rank-300-plus';
     }
 }
+
 function getRankChange(previousRank, currentRank) {
-    if (previousRank && currentRank) {
+    if (previousRank > 0 && currentRank > 0) {
         return previousRank - currentRank;
     } else {
-        return 0;
+        return -currentRank; // Negative because the player has moved down from not being on the leaderboard
     }
 }
 
 function updateLeaderboard(data) {
     const playersList = document.getElementById('players-list');
-    const movementsList = document.getElementById('movements-list'); // Corrected
+    const movementsList = document.getElementById('movements-list');
     playersList.innerHTML = '';
 
     data.players.forEach((player, index) => {
         const playerElement = document.createElement('li');
-        playerElement.textContent = `${player.player}: ${player.total_packs} packs`;
+        playerElement.textContent = `${index + 1}. ${player.player}: ${player.total_packs} packs`;
 
         // Add rank class
-        playerElement.classList.add(getRankClass(index));
+        playerElement.classList.add(getRankClass(index + 1));
 
         // Check for changes
         if (previousData) {
             const previousPlayer = previousData.players.find(p => p.player === player.player);
-            if (previousPlayer) {
-                const rankChange = getRankChange(previousData.players.indexOf(previousPlayer) + 1, index + 1);
-                if (Math.abs(rankChange) >= 10) { // Change this to adjust the threshold for "big" movements
-                    const movementElement = document.createElement('li');
-                    movementElement.textContent = `${player.player} moved ${rankChange > 0 ? 'up' : 'down'} ${Math.abs(rankChange)} places`;
-                    movementsList.appendChild(movementElement);
-                }
+            const previousIndex = previousPlayer ? previousData.players.indexOf(previousPlayer) + 1 : -1;
+            const rankChange = getRankChange(previousIndex, index + 1);
+            if (Math.abs(rankChange) >= 1) { // Change this to adjust the threshold for movements
+                const movementElement = document.createElement('li');
+                movementElement.textContent = `${player.player} moved ${rankChange > 0 ? 'up' : 'down'} ${Math.abs(rankChange)} places`;
+                movementsList.appendChild(movementElement);
+            }
 
-                if (previousPlayer.total_packs !== player.total_packs) {
-                    playerElement.classList.add('updated');
-                }
+            if (previousPlayer && previousPlayer.total_packs !== player.total_packs) {
+                playerElement.classList.add('updated');
             }
         }
 
