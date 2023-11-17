@@ -38,6 +38,9 @@ function updateLeaderboard(data) {
     const movementsList = document.getElementById('movements-list');
     playersList.innerHTML = '';
 
+    const totalPacks = data.total_packs_purchased + data.total_bonus_packs; // Calculate total packs from root data
+	const remainingPacks = 500000 - totalPacks; // Calculate remaining packs
+
     data.players.forEach((player, index) => {
         const playerElement = document.createElement('li');
         playerElement.textContent = `${index + 1}. ${player.player}: ${player.total_packs} packs`;
@@ -58,16 +61,21 @@ function updateLeaderboard(data) {
                 // Add color for big movements
                 movementElement.classList.add(getRankClass(index + 1)); // Add the rank class based on the new rank
 
-                movementsList.appendChild(movementElement);
+                movementsList.insertBefore(movementElement, movementsList.firstChild);
             }
 
-            if (previousPlayer && previousPlayer.total_packs !== player.total_packs) {
+            if (previousPlayer && player.total_packs !== previousPlayer.total_packs) {
                 playerElement.classList.add('updated');
             }
         }
 
         playersList.appendChild(playerElement);
     });
+
+    // Add total packs to the leaderboard
+    const totalPacksElement = document.createElement('li');
+    totalPacksElement.textContent = `Total packs purchased: ${data.total_packs_purchased}, Total bonus packs: ${data.total_bonus_packs}, Total packs: ${totalPacks}, Remaining packs: ${remainingPacks}`;    
+    movementsList.insertBefore(totalPacksElement, movementsList.firstChild);
 }
 
 // Initial fetch
