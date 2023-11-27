@@ -1,7 +1,28 @@
 const API_URL = 'https://api.splinterlands.com/players/rebellion_presale_leaders';
 let previousData = null;
+let pollingInterval = null;
+let hasFetchedAfterEndDate = false;
+
+const END_DATE = new Date('2023-11-17T13:00:00-05:00'); // End date in EST
 
 function fetchLeaderboardData() {
+    const currentDate = new Date();
+    if (currentDate >= END_DATE) {
+        if (hasFetchedAfterEndDate) {
+            clearInterval(pollingInterval); // Stop polling for data
+
+			// Add end message to the movements list
+			const movementsList = document.getElementById('movements-list');
+			const endMessageElement = document.createElement('li');
+			endMessageElement.textContent = 'The Splinterlands Rebellion Presale has ended.';
+			movementsList.insertBefore(endMessageElement, movementsList.firstChild);
+
+            return;
+        } else {
+            hasFetchedAfterEndDate = true;
+        }	
+    }
+
     fetch(API_URL)
         .then(response => response.json())
         .then(data => {
@@ -12,13 +33,13 @@ function fetchLeaderboardData() {
 }
 
 function getRankClass(rank) {
-    if (rank < 6) {
+    if (rank <= 6) {
         return 'rank-1-6';
-    } else if (rank < 30) {
+    } else if (rank <= 30) {
         return 'rank-7-30';
-    } else if (rank < 100) {
+    } else if (rank <= 100) {
         return 'rank-31-100';
-    } else if (rank < 300) {
+    } else if (rank <= 300) {
         return 'rank-101-300';
     } else {
         return 'rank-300-plus';
@@ -82,4 +103,4 @@ function updateLeaderboard(data) {
 fetchLeaderboardData();
 
 // Poll for updates every 5 seconds
-setInterval(fetchLeaderboardData, 5000);
+pollingInterval = setInterval(fetchLeaderboardData, 5000);
